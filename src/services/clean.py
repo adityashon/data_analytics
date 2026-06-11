@@ -14,6 +14,7 @@ def clean_dataframe(df:pd.DataFrame)-> Tuple[pd.DataFrame,Dict[str,Any]]:
     
     report:Dict[str,Any] ={
         'original_shape' :{'Rows':len(df),'Columns':len(df.columns)},
+        'operations' : []
     }
     df = df.copy() # never change/mutate teh original data -- 
 
@@ -61,4 +62,7 @@ def clean_dataframe(df:pd.DataFrame)-> Tuple[pd.DataFrame,Dict[str,Any]]:
 
 
 def _record(report:dict,message:str,details:dict)->None:
-    report[message] = details
+    report["operations"].append({
+        'message':message,
+        'details':details
+    })
