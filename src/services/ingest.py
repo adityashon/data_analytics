@@ -75,7 +75,7 @@ def _read_xml(content:bytes)->pd.DataFrame:
 
         using two `APPROACHES`
         1) using the pandas (pd.read_xml())
-        2) manual Xml parsing (note:- i too some help of AI)
+        2) manual Xml parsing (note:- i had took some help of AI)
     
     '''
     try:
