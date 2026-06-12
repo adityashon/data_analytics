@@ -155,7 +155,6 @@ def clean_dataframe(df:pd.DataFrame)-> Tuple[pd.DataFrame,Dict[str,Any]]:
         
 
         
-        
         #  ---- Final report --------
     report['operations'].append({
             'final_steps' : {"rows": len(df), "cols": len(df.columns)},
