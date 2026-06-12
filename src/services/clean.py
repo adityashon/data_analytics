@@ -49,6 +49,9 @@ def clean_dataframe(df:pd.DataFrame)-> Tuple[pd.DataFrame,Dict[str,Any]]:
                 f'Renamed {len(renamed)} columns to snake_case',
                 {"type": "rename", "count": len(renamed), "mapping": renamed}
         )
+
+
+    
     #    --- Strip string whitespace ----
 
     objt_cols = df.select_dtypes(include='object').columns.tolist()
@@ -74,6 +77,9 @@ def clean_dataframe(df:pd.DataFrame)-> Tuple[pd.DataFrame,Dict[str,Any]]:
         _record(report, f"Removed {dropped_rows} fully-empty rows and {dropped_cols} empty columns",
                 {"type": "drop_empty", "rows_dropped": dropped_rows, "cols_dropped": dropped_cols})
 
+
+
+
     #    ----   Coerce numeric strings --------
     '''
     CSVs store everything as text. "42.5" as a string can't be averaged.
@@ -88,6 +94,8 @@ def clean_dataframe(df:pd.DataFrame)-> Tuple[pd.DataFrame,Dict[str,Any]]:
             df[col] = changed
             _record(report, f"Converted '{col}' from text to numeric",
                     {"type": "coerce_numeric", "column": col, "success_rate": round(success / not_null, 2)})
+
+
 
 
     #    ----    Parse date columns  --------
@@ -108,8 +116,6 @@ def clean_dataframe(df:pd.DataFrame)-> Tuple[pd.DataFrame,Dict[str,Any]]:
         except ValueError:
             continue 
 
-
-    
 
 
         #  ----   Impute missing values --------
@@ -137,6 +143,9 @@ def clean_dataframe(df:pd.DataFrame)-> Tuple[pd.DataFrame,Dict[str,Any]]:
                 {"type": "impute", "total_missing": total_missing, "columns_affected": imputed_cols})
         
 
+
+
+
         #  ---- Remove duplicates  ------
     dup_count = int(df.duplicated().sum())
     df = df.drop_duplicates()
@@ -144,12 +153,18 @@ def clean_dataframe(df:pd.DataFrame)-> Tuple[pd.DataFrame,Dict[str,Any]]:
         _record(report, f"Removed {dup_count} duplicate rows",
                 {"type": "dedup", "duplicates_removed": dup_count})
         
+
+        
+        
         #  ---- Final report --------
     report['operations'].append({
             'final_steps' : {"rows": len(df), "cols": len(df.columns)},
             'dtypes':{col: str(dtype) for col, dtype in df.dtypes.items()}
         })
     return df, report
+
+
+
 
 #  ----  report maker -----------
 def _record(report:dict,message:str,details:dict)->None:
