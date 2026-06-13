@@ -60,7 +60,7 @@ def Normalise_column(df:pd.DataFrame,report:dict)->pd.DataFrame:
         .str.strip()
         .str.lower()
         .str.replace(r"\s+", "_", regex=True)
-        .str.replace(r"[^\w\s]", "", regex=True)
+        .str.replace(r"[^\w\s]", "_", regex=True)
     )
 
     renamed = {o:n for o,n in zip(original_cols,df.columns) if str(o).strip() !=n}
